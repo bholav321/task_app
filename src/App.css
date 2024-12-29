@@ -36,3 +36,30 @@
     transform: rotate(360deg);
   }
 }
+
+.resizer {
+  width: 5px;
+  height: 100%;
+  background-color: gray;
+  cursor: col-resize;
+}
+
+.resizer:hover {
+  background-color: darkgray;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th,
+td {
+  border: 1px solid black;
+  padding: 8px;
+  text-align: center;
+}
+
+th {
+  background-color: lightblue;
+}

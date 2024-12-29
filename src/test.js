@@ -90,7 +90,7 @@ const TaskManagerApp = () => {
     }
 
     if (!newTask.resolutionRemark.trim()) {
-      errors.resolutionRemark = "Solution is required.";
+      errors.resolutionRemark = "Resolution Remark is required.";
     }
 
     if (!newTask.taskCompletedDate.trim()) {
@@ -244,16 +244,6 @@ const TaskManagerApp = () => {
     setSelectedRows([]);
   };
 
-  // When issue date changes, set completed date to the same value unless the completed date has been edited
-  useEffect(() => {
-    if (!newTask.taskCompletedDate && newTask.date) {
-      setNewTask((prevTask) => ({
-        ...prevTask,
-        taskCompletedDate: prevTask.date, // Set completed date to issue date initially
-      }));
-    }
-  }, [newTask.date]);
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setNewTask((prev) => {
@@ -385,6 +375,7 @@ const TaskManagerApp = () => {
           <Col xs={12}>
             <div className="container-fluid p-2">
               {" "}
+              {/* Reduced padding */}
               {tasks.length === 0 ? (
                 <Alert variant="info">No tasks available</Alert>
               ) : (
@@ -398,7 +389,7 @@ const TaskManagerApp = () => {
                     style={{
                       borderRadius: "8px",
                       overflow: "hidden",
-                      margin: "0 auto",
+                      margin: "0 auto", // Center the table
                     }}
                   >
                     <thead className="bg-primary text-white">
@@ -414,13 +405,12 @@ const TaskManagerApp = () => {
                           />
                         </th>
                         <th>Sr. No.</th>
-                        <th>Issue Date</th>
+                        <th>Date</th>
                         <th>Workstation</th>
                         <th>Received From</th>
                         <th>Issue Type</th>
-                        <th>Description</th>
-                        <th>Issue Found</th>
-                        <th>Solution</th>
+                        <th>Issue Description</th>
+                        <th>Resolution Remark</th>
                         <th>Status</th>
                         <th>Completed Date</th>
                         <th>Duration</th>
@@ -454,7 +444,6 @@ const TaskManagerApp = () => {
                           <td>{task.receivedFrom}</td>
                           <td>{task.issueType}</td>
                           <td>{task.issueDescription}</td>
-                          <td>{task.issueFound}</td>
                           <td>{task.resolutionRemark}</td>
                           <td>
                             <span
@@ -482,7 +471,7 @@ const TaskManagerApp = () => {
                           <td>{task.inTime}</td>
                           <td>{task.outTime}</td>
                           <td>{task.totalHours}</td>
-                          <td className="d-flex justify-content-center align-items-center gap-2">
+                          <td className="d-flex justify-content-center gap-2">
                             <Button
                               variant="info"
                               onClick={() => handleEditTask(index)}
@@ -519,7 +508,7 @@ const TaskManagerApp = () => {
               <Row>
                 <Col md={6}>
                   <Form.Group style={styles.formGroup}>
-                    <Form.Label style={styles.formLabel}>Issue Date</Form.Label>
+                    <Form.Label style={styles.formLabel}>Date</Form.Label>
                     <Form.Control
                       type="date"
                       name="date"
@@ -552,26 +541,7 @@ const TaskManagerApp = () => {
                   </Form.Group>
                 </Col>
               </Row>
-              <Row>
-                <Col md={12}>
-                  <Form.Group style={styles.formGroup}>
-                    <Form.Label style={styles.formLabel}>
-                      Issue Found
-                    </Form.Label>
-                    <Form.Control
-                      type="text"
-                      name="issueFound"
-                      value={newTask.issueFound}
-                      onChange={handleInputChange}
-                      isInvalid={!!error.issueFound}
-                      placeholder="Enter issue found details"
-                    />
-                    <Form.Control.Feedback type="invalid">
-                      {error.issueFound}
-                    </Form.Control.Feedback>
-                  </Form.Group>
-                </Col>
-              </Row>
+
               <Row>
                 <Col md={6}>
                   <Form.Group style={styles.formGroup}>
@@ -611,7 +581,7 @@ const TaskManagerApp = () => {
                 <Col md={6}>
                   <Form.Group style={styles.formGroup}>
                     <Form.Label style={styles.formLabel}>
-                      Description
+                      Issue Description
                     </Form.Label>
                     <Form.Control
                       as="textarea"
@@ -629,7 +599,9 @@ const TaskManagerApp = () => {
                 </Col>
                 <Col md={6}>
                   <Form.Group style={styles.formGroup}>
-                    <Form.Label style={styles.formLabel}>Solution</Form.Label>
+                    <Form.Label style={styles.formLabel}>
+                      Resolution Remark
+                    </Form.Label>
                     <Form.Control
                       as="textarea"
                       rows={3}
@@ -777,7 +749,7 @@ const TaskManagerApp = () => {
                 <Col md={6}>
                   <Form.Group style={styles.formGroup}>
                     <Form.Label style={styles.formLabel}>
-                      Completed Date
+                      Task Completed Date
                     </Form.Label>
                     <Form.Control
                       type="date"
@@ -785,7 +757,6 @@ const TaskManagerApp = () => {
                       value={newTask.taskCompletedDate}
                       onChange={handleInputChange}
                       isInvalid={!!error.taskCompletedDate}
-                      disabled={isEditing && !newTask.date} // Disable editing if not new task
                     />
                     <Form.Control.Feedback type="invalid">
                       {error.taskCompletedDate}
